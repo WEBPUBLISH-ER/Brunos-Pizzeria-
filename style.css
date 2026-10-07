@@ -193,7 +193,6 @@ nav ul li a:hover {
     max-width: 450px;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    /* Continuous soft floating animation */
     animation: floatAnimation 4s ease-in-out infinite;
 }
 
@@ -210,6 +209,7 @@ nav ul li a:hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-block;
     border: none;
+    text-align: center;
 }
 
 .btn-primary {
@@ -293,7 +293,6 @@ nav ul li a:hover {
     animation: slideUpFade 0.6s ease forwards;
 }
 
-/* Stagger delay for individual category boxes */
 .menu-category:nth-child(1) { animation-delay: 0.1s; }
 .menu-category:nth-child(2) { animation-delay: 0.2s; }
 .menu-category:nth-child(3) { animation-delay: 0.3s; }
@@ -488,31 +487,249 @@ nav ul li a:hover {
 }
 
 /* ==========================================
-   Responsive Design Adjustments
+   Mobile Navigation & Responsive Layouts
    ========================================== */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--dark);
+}
+
 @media (max-width: 768px) {
     header {
         padding: 15px 20px;
-        flex-direction: column;
-        gap: 15px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Collapsible Navigation Menu Drawer */
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    nav.mobile-open {
+        max-height: 350px;
     }
 
     nav ul {
-        gap: 15px;
-        font-size: 14px;
+        flex-direction: column;
+        gap: 0;
+        padding: 10px 20px 20px 20px;
     }
 
+    nav ul li {
+        padding: 12px 0;
+        border-bottom: 1px solid #f0ece1;
+    }
+
+    nav ul li:last-child {
+        border-bottom: none;
+    }
+
+    /* Hero section adjustments */
     .hero {
         flex-direction: column;
         text-align: center;
         margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    .hero .content h1 {
+        font-size: 32px;
     }
 
     .hero .buttons {
         justify-content: center;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    .hero .content h1 {
-        font-size: 36px;
+    .hero .buttons .btn {
+        width: 100%;
+    }
+
+    /* Containers and forms padding adjustments */
+    .menu-container, .booking-container {
+        padding: 20px 15px;
+    }
+
+    .booking-container {
+        margin: 20px 15px;
+        padding: 25px 20px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .menu-filters {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
+
+/* ==========================================
+   PDF / Mobile App Style Menu
+   ========================================== */
+body.menu-mode {
+    background: #ffffff;
+    color: #20242c;
+    overflow-x: hidden;
+}
+body.menu-mode > header { display: none; }
+body.menu-mode .menu-page-view { padding: 0; max-width: none; margin: 0; min-height: 100vh; }
+body.menu-mode .reference-menu {
+    min-height: 100vh;
+    background: #ffffff;
+    color: #20242c;
+}
+.menu-topbar {
+    height: 130px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    display: grid;
+    grid-template-columns: 72px 1fr 72px;
+    align-items: center;
+    padding: 0 22px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+.menu-topbar h1 { margin: 0; color: #20242c; font-size: 34px; font-weight: 500; letter-spacing: -.5px; }
+.menu-back-btn, .menu-search-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #20242c;
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    font-size: 44px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+}
+.menu-search-btn { font-size: 48px; transform: rotate(-20deg); }
+.menu-search-wrap { max-height: 0; overflow: hidden; background: #ffffff; transition: max-height .25s ease; }
+.menu-search-wrap.open { max-height: 100px; padding: 12px 24px; }
+.menu-search-wrap input {
+    width: 100%; padding: 13px 16px; border: 1px solid #d8d8d8; border-radius: 8px;
+    background: #f8f8f8; color: #20242c; font-size: 17px; outline: none;
+}
+.menu-category-list { padding: 0 48px 60px; }
+.menu-category-row {
+    width: 100%; min-height: 92px; padding: 0; border: 0; border-bottom: 2px solid #e6e6e6;
+    background: transparent; color: #20242c; display: flex; justify-content: space-between; align-items: center;
+    text-align: left; cursor: pointer; font-size: 27px; font-weight: 700;
+}
+.menu-category-row.special-category { color: #20242c; }
+.menu-category-row.special-category > span:first-child { display: flex; gap: 5px; align-items: center; }
+.menu-chevron { font-size: 48px; font-weight: 300; color: #555555; line-height: 1; }
+.menu-tabs-wrap {
+    background: #ffffff; border-bottom: 1px solid #e5e5e5; position: sticky; top: 130px; z-index: 15;
+    overflow: hidden;
+}
+.menu-tabs {
+    display: flex; overflow-x: auto; scrollbar-width: none; padding: 0 22px;
+}
+.menu-tabs::-webkit-scrollbar { display: none; }
+.menu-tab {
+    flex: 0 0 auto; position: relative; border: 0; background: transparent; color: #20242c;
+    padding: 24px 18px 21px; font-size: 25px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+.menu-tab.active { font-weight: 800; }
+.menu-tab.active::after {
+    content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 6px; background: #20242c;
+}
+.menu-items-list { padding: 42px 48px 80px; }
+.reference-menu-item { padding: 0 0 42px; margin: 0 0 64px; border-bottom: 4px solid #e1e1e1; }
+.reference-menu-item h2 { margin: 0 0 14px; color: #20242c; font-size: 27px; line-height: 1.2; font-weight: 800; }
+.reference-price { color: #666666; font-size: 23px; line-height: 1.25; margin-bottom: 13px; }
+.reference-price span { color: #20242c; font-size: 25px; margin-left: 4px; }
+.reference-menu-item p { margin: 0; color: #666666; font-size: 21px; line-height: 1.35; }
+.menu-empty { color: #666666; font-size: 20px; padding: 40px 0; }
+
+@media (min-width: 769px) {
+    .menu-category-list, .menu-items-list { max-width: 900px; margin: 0 auto; }
+    .menu-category-list { padding-left: 0; padding-right: 0; }
+    .menu-items-list { padding-left: 0; padding-right: 0; }
+    .menu-topbar { padding-left: max(22px, calc((100vw - 900px)/2)); padding-right: max(22px, calc((100vw - 900px)/2)); }
+}
+@media (max-width: 768px) {
+    .menu-topbar { height: 130px; grid-template-columns: 72px 1fr 72px; padding: 0 18px; }
+    .menu-topbar h1 { font-size: 32px; }
+    .menu-category-list { padding: 0 38px 50px; }
+    .menu-category-row { min-height: 93px; font-size: 27px; }
+    .menu-tabs-wrap { top: 130px; }
+    .menu-tabs { padding: 0 18px; }
+    .menu-tab { font-size: 24px; padding-left: 17px; padding-right: 17px; }
+    .menu-items-list { padding: 40px 38px 70px; }
+    .reference-menu-item h2 { font-size: 26px; }
+    .reference-price { font-size: 22px; }
+    .reference-price span { font-size: 24px; }
+    .reference-menu-item p { font-size: 20px; }
+}
+
+/* Build Your Order: category -> item picker */
+.build-order-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.75fr) 100px auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 15px;
+}
+.build-order-field,
+.build-order-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.build-order-field label,
+.build-order-quantity label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+.build-order-picker select:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    background: #f4f1eb;
+}
+.build-order-add {
+    min-height: 46px;
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .build-order-picker {
+        grid-template-columns: 1fr 90px;
+    }
+    .build-order-field:first-child,
+    .build-order-field:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+    .build-order-add {
+        width: 100%;
     }
 }

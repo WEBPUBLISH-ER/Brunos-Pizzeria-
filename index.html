@@ -4,26 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bruno's Pizzeria | Authentic Italian Cuisine</title>
-    <!-- Link to your CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #c92a2a;
+            --secondary: #d4af37;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --grey: #6c757d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        header { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); display: flex; align-items: center; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 600; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
+        
+        .page-view { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+        .page-view.active { display: block; }
+
+        .hero { display: flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 70vh; }
+        .hero .content { flex: 1; }
+        .hero h2 { color: var(--secondary); font-size: 22px; margin-bottom: 10px; }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; color: var(--dark); }
+        .hero h1 span { color: var(--primary); }
+        .hero p { color: var(--grey); margin-bottom: 30px; font-size: 18px; }
+        .hero .buttons { display: flex; gap: 15px; }
+        .hero .profile { flex: 1; text-align: center; }
+        .hero .profile img { max-width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+
+        .btn { padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; border: none; transition: background 0.3s; display: inline-block; text-align: center; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: #a61e1e; }
+        .btn-secondary { background: var(--dark); color: #fff; }
+        .btn-secondary:hover { background: #343a40; }
+
+        .booking-container, .menu-container { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px; }
+
+        /* Original Simple Cards Design for About Us & Contact Us */
+        .info-card { background: #fff; padding: 40px; border-radius: 12px; text-align: center; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+        .info-card h2 { color: var(--primary); margin-bottom: 15px; font-size: 32px; }
+        .info-card p { color: var(--grey); margin-bottom: 20px; font-size: 16px; }
+
+        /* Menu Grid Styling */
+        .menu-category-section { margin-bottom: 40px; }
+        .menu-category-section h3 { color: var(--primary); font-size: 24px; border-bottom: 2px solid var(--secondary); padding-bottom: 8px; margin-bottom: 20px; }
+        .menu-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .menu-item-card { background: #fdfbf7; padding: 20px; border-radius: 8px; border: 1px solid #e0dbd1; display: flex; justify-content: space-between; align-items: flex-start; }
+        .menu-item-info h4 { font-size: 18px; margin-bottom: 5px; color: var(--dark); }
+        .menu-item-info p { font-size: 14px; color: var(--grey); }
+        .menu-item-price { font-weight: bold; color: var(--primary); font-size: 18px; margin-left: 15px; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            .hero .buttons { justify-content: center; }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: #fff; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+            nav.mobile-open ul { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+    /* ==========================================
+   PDF / Mobile App Style Menu
+   ========================================== */
+body.menu-mode {
+    background: #ffffff;
+    color: #20242c;
+    overflow-x: hidden;
+}
+body.menu-mode > header { display: none; }
+body.menu-mode .menu-page-view { padding: 0; max-width: none; margin: 0; min-height: 100vh; }
+body.menu-mode .reference-menu {
+    min-height: 100vh;
+    background: #ffffff;
+    color: #20242c;
+}
+.menu-topbar {
+    height: 130px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    display: grid;
+    grid-template-columns: 72px 1fr 72px;
+    align-items: center;
+    padding: 0 22px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+.menu-topbar h1 { margin: 0; color: #20242c; font-size: 34px; font-weight: 500; letter-spacing: -.5px; }
+.menu-back-btn, .menu-search-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #20242c;
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    font-size: 44px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+}
+.menu-search-btn { font-size: 48px; transform: rotate(-20deg); }
+.menu-search-wrap { max-height: 0; overflow: hidden; background: #ffffff; transition: max-height .25s ease; }
+.menu-search-wrap.open { max-height: 100px; padding: 12px 24px; }
+.menu-search-wrap input {
+    width: 100%; padding: 13px 16px; border: 1px solid #d8d8d8; border-radius: 8px;
+    background: #f8f8f8; color: #20242c; font-size: 17px; outline: none;
+}
+.menu-category-list { padding: 0 48px 60px; }
+.menu-category-row {
+    width: 100%; min-height: 92px; padding: 0; border: 0; border-bottom: 2px solid #e6e6e6;
+    background: transparent; color: #20242c; display: flex; justify-content: space-between; align-items: center;
+    text-align: left; cursor: pointer; font-size: 27px; font-weight: 700;
+}
+.menu-category-row.special-category { color: #20242c; }
+.menu-category-row.special-category > span:first-child { display: flex; gap: 5px; align-items: center; }
+.menu-chevron { font-size: 48px; font-weight: 300; color: #555555; line-height: 1; }
+.menu-tabs-wrap {
+    background: #ffffff; border-bottom: 1px solid #e5e5e5; position: sticky; top: 130px; z-index: 15;
+    overflow: hidden;
+}
+.menu-tabs {
+    display: flex; overflow-x: auto; scrollbar-width: none; padding: 0 22px;
+}
+.menu-tabs::-webkit-scrollbar { display: none; }
+.menu-tab {
+    flex: 0 0 auto; position: relative; border: 0; background: transparent; color: #20242c;
+    padding: 24px 18px 21px; font-size: 25px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+.menu-tab.active { font-weight: 800; }
+.menu-tab.active::after {
+    content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 6px; background: #20242c;
+}
+.menu-items-list { padding: 42px 48px 80px; }
+.reference-menu-item { padding: 0 0 42px; margin: 0 0 64px; border-bottom: 4px solid #e1e1e1; }
+.reference-menu-item h2 { margin: 0 0 14px; color: #20242c; font-size: 27px; line-height: 1.2; font-weight: 800; }
+.reference-price { color: #666666; font-size: 23px; line-height: 1.25; margin-bottom: 13px; }
+.reference-price span { color: #20242c; font-size: 25px; margin-left: 4px; }
+.reference-menu-item p { margin: 0; color: #666666; font-size: 21px; line-height: 1.35; }
+.menu-empty { color: #666666; font-size: 20px; padding: 40px 0; }
+
+@media (min-width: 769px) {
+    .menu-category-list, .menu-items-list { max-width: 900px; margin: 0 auto; }
+    .menu-category-list { padding-left: 0; padding-right: 0; }
+    .menu-items-list { padding-left: 0; padding-right: 0; }
+    .menu-topbar { padding-left: max(22px, calc((100vw - 900px)/2)); padding-right: max(22px, calc((100vw - 900px)/2)); }
+}
+@media (max-width: 768px) {
+    .menu-topbar { height: 130px; grid-template-columns: 72px 1fr 72px; padding: 0 18px; }
+    .menu-topbar h1 { font-size: 32px; }
+    .menu-category-list { padding: 0 38px 50px; }
+    .menu-category-row { min-height: 93px; font-size: 27px; }
+    .menu-tabs-wrap { top: 130px; }
+    .menu-tabs { padding: 0 18px; }
+    .menu-tab { font-size: 24px; padding-left: 17px; padding-right: 17px; }
+    .menu-items-list { padding: 40px 38px 70px; }
+    .reference-menu-item h2 { font-size: 26px; }
+    .reference-price { font-size: 22px; }
+    .reference-price span { font-size: 24px; }
+    .reference-menu-item p { font-size: 20px; }
+}
+
+/* Build Your Order: category -> item picker */
+.build-order-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.75fr) 100px auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 15px;
+}
+.build-order-field,
+.build-order-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.build-order-field label,
+.build-order-quantity label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+.build-order-picker select:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    background: #f4f1eb;
+}
+.build-order-add {
+    min-height: 46px;
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .build-order-picker {
+        grid-template-columns: 1fr 90px;
+    }
+    .build-order-field:first-child,
+    .build-order-field:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+    .build-order-add {
+        width: 100%;
+    }
+}
+
+    </style>
 </head>
 <body>
-    <!-- Header section -->
     <header>
-        <div class="logo">Bruno's Pizzeria</div>
-        <nav>
+        <div class="logo">
+            <span class="italy-flag" style="display: inline-block; width: 24px; height: 16px; border: 1px solid #ccc; margin-right: 8px; vertical-align: middle; background: linear-gradient(90deg, #009246 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ce2b37 66.66%);"></span>
+            Bruno's Pizzeria
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation">☰</button>
+        <nav id="mainNav">
             <ul>
-                <li><a href="#" id="navHome" onclick="switchView('home')">Home</a></li>
-                <li><a href="#" id="navMenu" onclick="switchView('menu')">Our Menu</a></li>
-                <li><a href="#" id="navOrder" onclick="switchView('order')">Order Online</a></li>
-                <li><a href="#" id="navBooking" onclick="switchView('booking')">Book a Table</a></li>
-                <li><a href="#" id="navAbout" onclick="switchView('about')">About Us</a></li>
-                <li><a href="#" id="navContact" onclick="switchView('contact')">Contact Us</a></li>
+                <li><a href="#" onclick="switchView('home')">Home</a></li>
+                <li><a href="#" onclick="switchView('menu')">Our Menu</a></li>
+                <li><a href="#" onclick="switchView('order')">Order Online</a></li>
+                <li><a href="#" onclick="switchView('booking')">Book a Table</a></li>
+                <li><a href="#" onclick="switchView('about')">About Us</a></li>
+                <li><a href="#" onclick="switchView('contact')">Contact Us</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- HOME VIEW SECTION -->
+    <!-- HOME VIEW -->
     <div id="homeView" class="page-view active">
         <section class="hero">
             <div class="content">
@@ -41,121 +250,31 @@
         </section>
     </div>
 
-    <!-- MENU VIEW SECTION WITH FILTER TABS -->
-    <div id="menuView" class="page-view">
-        <div class="menu-container">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="font-size: 40px; margin-bottom: 10px;">Our Interactive <span>Menu</span></h1>
-                <p style="color: var(--grey);">Mulbarton, Johannesburg South | Est. 1986</p>
+    <!-- MENU VIEW -->
+    <div id="menuView" class="page-view menu-page-view">
+        <div class="reference-menu">
+            <div class="menu-topbar">
+                <button class="menu-back-btn" onclick="closeMenuView()" aria-label="Back to home">←</button>
+                <h1 id="menuPageTitle">Menu</h1>
+                <button class="menu-search-btn" onclick="focusMenuSearch()" aria-label="Search menu">⌕</button>
             </div>
-
-            <!-- Filter Buttons -->
-            <div class="menu-filters">
-                <button class="filter-btn active" onclick="filterMenu('all')">All Items</button>
-                <button class="filter-btn" onclick="filterMenu('breakfast')">Breakfast</button>
-                <button class="filter-btn" onclick="filterMenu('starters')">Starters & Salads</button>
-                <button class="filter-btn" onclick="filterMenu('classicpizza')">Classic & Gourmet Pizza</button>
-                <button class="filter-btn" onclick="filterMenu('pasta')">Pasta & Al Forno</button>
-                <button class="filter-btn" onclick="filterMenu('grills')">Grills, Chicken & Seafood</button>
-                <button class="filter-btn" onclick="filterMenu('dessert')">Dessert</button>
-                <button class="filter-btn" onclick="filterMenu('drinks')">Drinks</button>
+            <div class="menu-search-wrap" id="menuSearchWrap">
+                <input id="menuSearch" type="search" placeholder="Search the menu..." oninput="filterMenuItems(this.value)" aria-label="Search menu items">
             </div>
-
-            <div class="menu-grid">
-                <!-- Breakfast -->
-                <div class="menu-category" data-category="breakfast">
-                    <h3>Breakfast (Served Till 11:30)</h3>
-                    <div class="menu-item"><span class="item-name">Avo On Toast</span><span class="item-price">R80</span></div>
-                    <div class="menu-item"><span class="item-name">Breakfast Oats</span><span class="item-price">R68</span></div>
-                    <div class="menu-item"><span class="item-name">Smoked Salmon Croissant</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">French Toast</span><span class="item-price">R75</span></div>
-                    <div class="menu-item"><span class="item-name">Bruno's Full House</span><span class="item-price">R130</span></div>
-                    <div class="menu-item"><span class="item-name">Ham Benedict</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">Mince on Toast</span><span class="item-price">R105</span></div>
-                </div>
-
-                <!-- Starters & Salads -->
-                <div class="menu-category" data-category="starters">
-                    <h3>Starters & Salads</h3>
-                    <div class="menu-item"><span class="item-name">Mussels</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">Cheesy Garlic Snails</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">Cheesy Garlic Prawn Tails</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">Greek Salad</span><span class="item-price">R105</span></div>
-                    <div class="menu-item"><span class="item-name">Cajun Chicken Salad</span><span class="item-price">R110</span></div>
-                    <div class="menu-item"><span class="item-name">Caprese Salad</span><span class="item-price">R110</span></div>
-                    <div class="menu-item"><span class="item-name">Beef Salad</span><span class="item-price">R135</span></div>
-                </div>
-
-                <!-- Classic & Gourmet Pizza -->
-                <div class="menu-category" data-category="classicpizza">
-                    <h3>Classic & Gourmet Pizza</h3>
-                    <div class="menu-item"><span class="item-name">Focaccia Cheese</span><span class="item-price">R95</span></div>
-                    <div class="menu-item"><span class="item-name">Margherita</span><span class="item-price">R110</span></div>
-                    <div class="menu-item"><span class="item-name">Pepperoni</span><span class="item-price">R135</span></div>
-                    <div class="menu-item"><span class="item-name">Hawaiian</span><span class="item-price">R135</span></div>
-                    <div class="menu-item"><span class="item-name">Spinach, Bacon & Feta</span><span class="item-price">R145</span></div>
-                    <div class="menu-item"><span class="item-name">Mexicana</span><span class="item-price">R145</span></div>
-                    <div class="menu-item"><span class="item-name">Don Bruno For The Hungry</span><span class="item-price">R295</span></div>
-                </div>
-
-                <!-- Pasta & Al Forno -->
-                <div class="menu-category" data-category="pasta">
-                    <h3>Pasta & Al Forno</h3>
-                    <div class="menu-item"><span class="item-name">Neapolitan Pasta</span><span class="item-price">R120</span></div>
-                    <div class="menu-item"><span class="item-name">Bolognaise Pasta</span><span class="item-price">R145</span></div>
-                    <div class="menu-item"><span class="item-name">Alfredo Pasta</span><span class="item-price">R150</span></div>
-                    <div class="menu-item"><span class="item-name">Salmon Pasta</span><span class="item-price">R175</span></div>
-                    <div class="menu-item"><span class="item-name">Lasagna</span><span class="item-price">R155</span></div>
-                    <div class="menu-item"><span class="item-name">Bruno's Mac & Cheese</span><span class="item-price">R145</span></div>
-                </div>
-
-                <!-- Grills, Chicken & Seafood -->
-                <div class="menu-category" data-category="grills">
-                    <h3>Grills, Chicken & Seafood</h3>
-                    <div class="menu-item"><span class="item-name">Lamb Chops</span><span class="item-price">R220</span></div>
-                    <div class="menu-item"><span class="item-name">Fillet/Rump & Sauce</span><span class="item-price">R230 / R190</span></div>
-                    <div class="menu-item"><span class="item-name">Grilled Chicken Breasts</span><span class="item-price">R155</span></div>
-                    <div class="menu-item"><span class="item-name">Half Chicken</span><span class="item-price">R170</span></div>
-                    <div class="menu-item"><span class="item-name">Grilled Calamari</span><span class="item-price">R160</span></div>
-                    <div class="menu-item"><span class="item-name">Grilled Kingklip</span><span class="item-price">R220</span></div>
-                    <div class="menu-item"><span class="item-name">Queen Prawns (Eight)</span><span class="item-price">R240</span></div>
-                </div>
-
-                <!-- Dessert -->
-                <div class="menu-category" data-category="dessert">
-                    <h3>Dessert</h3>
-                    <div class="menu-item"><span class="item-name">Creme Brulee</span><span class="item-price">R75</span></div>
-                    <div class="menu-item"><span class="item-name">Nutella Focaccia</span><span class="item-price">R85</span></div>
-                    <div class="menu-item"><span class="item-name">Sticky Toffee Pudding</span><span class="item-price">R75</span></div>
-                    <div class="menu-item"><span class="item-name">Malva Pudding</span><span class="item-price">R75</span></div>
-                    <div class="menu-item"><span class="item-name">Tiramisu</span><span class="item-price">R85</span></div>
-                </div>
-
-                <!-- Drinks -->
-                <div class="menu-category" data-category="drinks">
-                    <h3>Drinks & Hot Beverages</h3>
-                    <div class="menu-item"><span class="item-name">Appletiser / Grapetiser</span><span class="item-price">R38</span></div>
-                    <div class="menu-item"><span class="item-name">Soft Drinks (Coke, Fanta, Sprite)</span><span class="item-price">R32</span></div>
-                    <div class="menu-item"><span class="item-name">Iced Tea (Lemon / Peach)</span><span class="item-price">R35</span></div>
-                    <div class="menu-item"><span class="item-name">Mineral Water (Still / Sparkling)</span><span class="item-price">R28</span></div>
-                    <div class="menu-item"><span class="item-name">Cappuccino</span><span class="item-price">R42</span></div>
-                    <div class="menu-item"><span class="item-name">Café Latte</span><span class="item-price">R45</span></div>
-                    <div class="menu-item"><span class="item-name">Irish Coffee</span><span class="item-price">R70</span></div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 40px;">
-                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            <div id="menuCategoryList" class="menu-category-list"></div>
+            <div id="menuCategoryView" class="menu-category-view" style="display:none;">
+                <div class="menu-tabs-wrap"><div id="menuTabs" class="menu-tabs"></div></div>
+                <div id="menuItemsList" class="menu-items-list"></div>
             </div>
         </div>
     </div>
 
-    <!-- ORDER ONLINE VIEW SECTION -->
+    <!-- ORDER ONLINE VIEW -->
     <div id="orderView" class="page-view">
-        <div class="booking-container">
+        <div class="booking-container" style="max-width: 850px;">
             <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="font-size: 36px; margin-bottom: 10px;">Order <span>Online</span></h1>
-                <p style="color: var(--grey);">Send your takeaway or delivery order straight to our kitchen via WhatsApp!</p>
+                <h1 style="font-size: 36px; margin-bottom: 10px;">Order Online - <span>Collection Only</span></h1>
+                <p style="color: var(--grey);">Choose any item from the full menu below. Pizza selections will automatically unlock pizza extras!</p>
             </div>
 
             <form id="onlineOrderForm" onsubmit="submitOrderForm(event)">
@@ -167,22 +286,107 @@
                     <label for="orderPhone">Phone Number</label>
                     <input type="tel" id="orderPhone" class="form-control" placeholder="Enter your phone number" required>
                 </div>
-                <div class="form-group">
-                    <label for="orderType">Order Type</label>
-                    <select id="orderType" class="form-control" required>
-                        <option value="Collection">Collection</option>
-                        <option value="Delivery">Delivery (Mulbarton & Surrounds)</option>
-                    </select>
+
+                <div class="form-group" style="background: #fdfbf7; padding: 20px; border-radius: 12px; border: 1px solid #e0dbd1;">
+                    <label style="font-size: 18px; margin-bottom: 15px; color: var(--primary);">Build Your Order</label>
+                    
+                    <div class="build-order-picker">
+                        <div class="build-order-field">
+                            <label for="menuCategorySelect">1. Choose a category</label>
+                            <select id="menuCategorySelect" class="form-control" onchange="populateOrderItems(this.value)">
+                                <option value="" disabled selected>-- Choose Starters, Pizza, Pasta, etc. --</option>
+                            </select>
+                        </div>
+
+                        <div class="build-order-field">
+                            <label for="menuItemSelect">2. Choose your item</label>
+                            <select id="menuItemSelect" class="form-control" onchange="checkMenuSelection()" disabled>
+                                <option value="" disabled selected>-- Select an item --</option>
+                            </select>
+                        </div>
+
+                        <div class="build-order-quantity">
+                            <label for="itemQuantity">Qty</label>
+                            <input type="number" id="itemQuantity" class="form-control" min="1" value="1" placeholder="Qty">
+                        </div>
+
+                        <button type="button" class="btn btn-primary build-order-add" onclick="addSelectedItem()">Add to Order</button>
+                    </div>
+
+                    <!-- Base Ingredients Panel -->
+                    <div id="optionsPanel" style="display: none; background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #d4af37; margin-bottom: 15px;">
+                        <h4 style="color: var(--primary); font-size: 15px; margin-bottom: 10px;">Base Ingredients (Uncheck to remove)</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; font-size: 14px;" id="ingredientsContainer"></div>
+                    </div>
+
+                    <!-- Pizza Extras Panel -->
+                    <div id="pizzaExtrasPanel" style="display: none; background: #fff8f0; padding: 15px; border-radius: 8px; border: 1px solid #c92a2a; margin-bottom: 15px;">
+                        <h4 style="color: var(--primary); font-size: 15px; margin-bottom: 10px;">🍕 Pizza Extras & Toppings</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 13px;" id="extrasContainer">
+                            <label><input type="checkbox" value="Extra Banana (+R15)" data-extra-price="15"> Banana (+R15)</label>
+                            <label><input type="checkbox" value="Extra Capers (+R15)" data-extra-price="15"> Capers (+R15)</label>
+                            <label><input type="checkbox" value="Extra Chilli (+R15)" data-extra-price="15"> Chilli (+R15)</label>
+                            <label><input type="checkbox" value="Extra Garlic (+R15)" data-extra-price="15"> Garlic (+R15)</label>
+                            <label><input type="checkbox" value="Sundried Tomatoes (+R15)" data-extra-price="15"> Sundried Tomatoes (+R15)</label>
+                            <label><input type="checkbox" value="Peri-Peri Sauce (+R15)" data-extra-price="15"> Peri-Peri Sauce (+R15)</label>
+                            <label><input type="checkbox" value="Pizza Sauce (+R15)" data-extra-price="15"> Pizza Sauce (+R15)</label>
+                            
+                            <label><input type="checkbox" value="Fresh Rocket (+R20)" data-extra-price="20"> Fresh Rocket (+R20)</label>
+                            <label><input type="checkbox" value="Extra Onion (+R20)" data-extra-price="20"> Onion (+R20)</label>
+                            <label><input type="checkbox" value="Extra Mushrooms (+R20)" data-extra-price="20"> Mushrooms (+R20)</label>
+                            <label><input type="checkbox" value="Fresh Tomato (+R20)" data-extra-price="20"> Tomato (+R20)</label>
+                            <label><input type="checkbox" value="Olives (+R20)" data-extra-price="20"> Olives (+R20)</label>
+                            <label><input type="checkbox" value="Spinach (+R20)" data-extra-price="20"> Spinach (+R20)</label>
+                            <label><input type="checkbox" value="Green Peppers (+R20)" data-extra-price="20"> Green Peppers (+R20)</label>
+                            <label><input type="checkbox" value="Peppadews (+R20)" data-extra-price="20"> Peppadews (+R20)</label>
+                            <label><input type="checkbox" value="Basil Pesto (+R20)" data-extra-price="20"> Basil Pesto (+R20)</label>
+                            
+                            <label><input type="checkbox" value="Jalapeno (+R25)" data-extra-price="25"> Jalapeno (+R25)</label>
+                            <label><input type="checkbox" value="Pineapple (+R25)" data-extra-price="25"> Pineapple (+R25)</label>
+                            <label><input type="checkbox" value="Parmesan Shavings (+R25)" data-extra-price="25"> Parmesan Shavings (+R25)</label>
+                            <label><input type="checkbox" value="Blue Cheese (+R25)" data-extra-price="25"> Blue Cheese (+R25)</label>
+                            <label><input type="checkbox" value="Ham (+R25)" data-extra-price="25"> Ham (+R25)</label>
+                            <label><input type="checkbox" value="Anchovies (+R25)" data-extra-price="25"> Anchovies (+R25)</label>
+                            <label><input type="checkbox" value="Mozzarella Cheese (+R25)" data-extra-price="25"> Mozzarella Cheese (+R25)</label>
+                            
+                            <label><input type="checkbox" value="Salami (+R30)" data-extra-price="30"> Salami (+R30)</label>
+                            <label><input type="checkbox" value="Bacon (+R30)" data-extra-price="30"> Bacon (+R30)</label>
+                            <label><input type="checkbox" value="Mince (+R30)" data-extra-price="30"> Mince (+R30)</label>
+                            <label><input type="checkbox" value="Feta (+R30)" data-extra-price="30"> Feta (+R30)</label>
+                            <label><input type="checkbox" value="Avo (+R30)" data-extra-price="30"> Avo (+R30)</label>
+                            <label><input type="checkbox" value="Cheese (+R30)" data-extra-price="30"> Cheese (+R30)</label>
+                            <label><input type="checkbox" value="Halloumi (+R30)" data-extra-price="30"> Halloumi (+R30)</label>
+                            <label><input type="checkbox" value="Chicken Mayo (+R30)" data-extra-price="30"> Chicken Mayo (+R30)</label>
+                            <label><input type="checkbox" value="Pepperoni (+R30)" data-extra-price="30"> Pepperoni (+R30)</label>
+                            <label><input type="checkbox" value="Artichokes (+R30)" data-extra-price="30"> Artichokes (+R30)</label>
+                            <label><input type="checkbox" value="Chourico (+R30)" data-extra-price="30"> Chourico (+R30)</label>
+                            <label><input type="checkbox" value="Cranberry (+R30)" data-extra-price="30"> Cranberry (+R30)</label>
+                            <label><input type="checkbox" value="Fig (+R30)" data-extra-price="30"> Fig (+R30)</label>
+                            <label><input type="checkbox" value="Spare Rib (+R30)" data-extra-price="30"> Spare Rib (+R30)</label>
+
+                            <label><input type="checkbox" value="Chicken (+R35)" data-extra-price="35"> Chicken (+R35)</label>
+                            <label><input type="checkbox" value="Prawn Meat (+R45)" data-extra-price="45"> Prawn Meat (+R45)</label>
+                            <label><input type="checkbox" value="Seafood (+R45)" data-extra-price="45"> Seafood (+R45)</label>
+                            <label><input type="checkbox" value="Fillet Strips (+R45)" data-extra-price="45"> Fillet Strips (+R45)</label>
+                            <label><input type="checkbox" value="Camembert Cheese (+R55)" data-extra-price="55"> Camembert Cheese (+R55)</label>
+                        </div>
+                    </div>
+
+                    <!-- Live Cart Summary -->
+                    <div style="background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #ccc;">
+                        <h4 style="margin-bottom: 10px; font-size: 15px; color: var(--dark);">Your Cart:</h4>
+                        <ul id="cartList" style="list-style: none; padding-left: 0; margin-bottom: 10px; min-height: 40px;">
+                            <li style="color: var(--grey); font-size: 14px; font-style: italic;">No items added yet.</li>
+                        </ul>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 1px solid #eee; padding-top: 8px;">
+                            <span>Total Estimated:</span>
+                            <span id="cartTotalPrice" style="color: var(--primary);">R0</span>
+                        </div>
+                    </div>
+                    <textarea id="orderDetails" style="display: none;" required></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="orderAddress">Delivery Address (If applicable)</label>
-                    <input type="text" id="orderAddress" class="form-control" placeholder="Enter your street address">
-                </div>
-                <div class="form-group">
-                    <label for="orderDetails">Your Order Items & Quantities</label>
-                    <textarea id="orderDetails" class="form-control" rows="4" placeholder="E.g., 1x Margherita Pizza, 1x Alfredo Pasta, 2x Appletiser..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">Send Order via WhatsApp</button>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">Send Collection Order via WhatsApp</button>
             </form>
 
             <div style="text-align: center; margin-top: 25px;">
@@ -191,12 +395,12 @@
         </div>
     </div>
 
-    <!-- TABLE BOOKING VIEW SECTION -->
+    <!-- TABLE BOOKING VIEW (UPDATED INTERACTIVE FORM) -->
     <div id="bookingView" class="page-view">
-        <div class="booking-container">
+        <div class="booking-container" style="max-width: 600px;">
             <div style="text-align: center; margin-bottom: 30px;">
                 <h1 style="font-size: 36px; margin-bottom: 10px;">Book a <span>Table</span></h1>
-                <p style="color: var(--grey);">Fill out the details below to instantly send your reservation request straight to our WhatsApp line!</p>
+                <p style="color: var(--grey);">Reserve your table at Bruno's Pizzeria. Fill out your details below!</p>
             </div>
 
             <form id="tableBookingForm" onsubmit="submitBookingForm(event)">
@@ -209,172 +413,654 @@
                     <input type="tel" id="bookPhone" class="form-control" placeholder="Enter your phone number" required>
                 </div>
                 <div class="form-group">
-                    <label for="bookDate">Reservation Date</label>
+                    <label for="bookGuests">Number of Guests</label>
+                    <select id="bookGuests" class="form-control" required>
+                        <option value="" disabled selected>-- Select Number of People --</option>
+                        <option value="1 Person">1 Person</option>
+                        <option value="2 People">2 People</option>
+                        <option value="3 People">3 People</option>
+                        <option value="4 People">4 People</option>
+                        <option value="5 People">5 People</option>
+                        <option value="6 People">6 People</option>
+                        <option value="7+ People">7+ People (Large Group)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookDate">Date</label>
                     <input type="date" id="bookDate" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="bookTime">Time Slot</label>
-                    <input type="time" id="bookTime" class="form-control" required>
+                    <select id="bookTime" class="form-control" required>
+                        <option value="" disabled selected>-- Select Time --</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="12:30 PM">12:30 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="01:30 PM">01:30 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="06:00 PM">06:00 PM</option>
+                        <option value="06:30 PM">06:30 PM</option>
+                        <option value="07:00 PM">07:00 PM</option>
+                        <option value="07:30 PM">07:30 PM</option>
+                        <option value="08:00 PM">08:00 PM</option>
+                        <option value="08:30 PM">08:30 PM</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="bookGuests">Number of Guests</label>
-                    <input type="number" id="bookGuests" class="form-control" min="1" max="20" value="2" required>
+                    <label for="bookNotes">Special Requests (Optional)</label>
+                    <textarea id="bookNotes" class="form-control" placeholder="High chair, quiet corner, dietary requirements..." rows="3"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="bookNotes">Special Requests / Dietary Notes</label>
-                    <textarea id="bookNotes" class="form-control" rows="3" placeholder="E.g., High chair needed, seating preference..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">Confirm Reservation via WhatsApp</button>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-bottom: 15px;">Send Table Reservation via WhatsApp</button>
             </form>
 
-            <div style="text-align: center; margin-top: 25px;">
+            <div style="text-align: center; margin-top: 20px;">
                 <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
             </div>
         </div>
     </div>
 
-    <!-- ABOUT US VIEW SECTION -->
+    <!-- ABOUT US VIEW -->
     <div id="aboutView" class="page-view">
-        <div class="menu-container" style="max-width: 800px;">
-            <div class="about-card">
-                <h2>Bruno's Pizzeria</h2>
-                <p>Bringing authentic traditional Italian wood-fired pizzas, handcrafted pastas, and exquisite grills to Mulbarton since 1986.</p>
-
-                <div class="about-actions">
-                    <a href="https://wa.me/27697997487?text=Hi,%20I%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="icon-btn whatsapp-icon-btn" title="WhatsApp Us">💬</a>
-                    <a href="tel:0697997487" class="icon-btn call-icon-btn" title="Call Us">📞</a>
-                </div>
-
-                <div style="font-size: 22px; font-weight: bold; border-bottom: 1px solid #332d27; padding-bottom: 8px;">Location & Contact</div>
-                <p style="margin-top: 15px; color: #dcd6cd;">Cnr Hythe Ave & The Broads St</p>
-                <p style="color: #dcd6cd;">Mulbarton, Johannesburg South</p>
-                <p style="margin-top: 15px; color: #d4af37; font-weight: bold;">Call / WhatsApp: 069 799 7487</p>
-
-                <div style="font-size: 22px; font-weight: bold; border-bottom: 1px solid #332d27; padding-bottom: 8px; margin-top: 35px;">Trading Hours</div>
-                <p style="margin-top: 15px; color: #dcd6cd;">Tuesday – Saturday: 10:30 AM – 9:00 PM</p>
-                <p style="color: #dcd6cd;">Sunday: 07:30 AM – 8:00 PM</p>
-                <p style="font-style: italic; color: #a3988d; margin-top: 8px;">Join us for our weekend specials!</p>
-
-                <div class="social-links">
-                    <a href="#" class="social-icon" title="Facebook">F</a>
-                    <a href="#" class="social-icon" title="Instagram">IG</a>
-                    <a href="https://wa.me/27697997487" target="_blank" class="social-icon" title="WhatsApp">WA</a>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 30px;">
+        <div class="info-card">
+            <h2>About Us</h2>
+            <p>Bruno's Pizzeria has been serving authentic traditional Italian wood-fired pizzas, hearty homemade pastas, and warm family hospitality in Mulbarton since 1986.</p>
+            <p>We take pride in using only the finest ingredients to create unforgettable dining experiences for families, friends, and pizza lovers alike.</p>
+            <div style="margin-top: 30px;">
                 <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
             </div>
         </div>
     </div>
 
-    <!-- CONTACT US VIEW SECTION -->
+    <!-- CONTACT US VIEW -->
     <div id="contactView" class="page-view">
-        <div class="menu-container" style="max-width: 800px;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="font-size: 40px; margin-bottom: 10px;">Contact <span>Us</span></h1>
-                <p style="color: var(--grey);">Get in touch with us for orders, reservations, or inquiries.</p>
-            </div>
-
-            <div class="about-card" style="text-align: center;">
-                <h2>Bruno's Pizzeria</h2>
-                <p>Cnr Hythe Ave & The Broads St<br>Mulbarton, Johannesburg South</p>
-                
-                <h3 style="color: #d4af37; font-size: 28px; margin-bottom: 10px;">069 799 7487</h3>
-                <p style="color: #dcd6cd; font-size: 14px; margin-bottom: 25px;">Available for Call & WhatsApp</p>
-
-                <div style="display: flex; justify-content: center; gap: 20px;">
-                    <a href="tel:0697997487" class="btn btn-primary" style="background-color: #c92a2a; color: #fff;">📞 Call Us</a>
-                    <a href="https://wa.me/27697997487?text=Hi,%20I%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="btn" style="background-color: #25d366; color: #fff;">💬 WhatsApp Us</a>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 30px;">
+        <div class="info-card">
+            <h2>Contact Us</h2>
+            <p style="font-size: 18px; margin-bottom: 5px; font-weight: bold; color: var(--dark);">Bruno's Pizzeria</p>
+            <p style="margin-bottom: 5px;">Cnr Hythe Ave & The Broads St, Mulbarton</p>
+            <p style="margin-bottom: 20px;">Johannesburg South, South Africa</p>
+            <h3 style="color: var(--secondary); font-size: 28px; margin-bottom: 15px;">069 799 7487</h3>
+            <p style="font-size: 14px; margin-bottom: 25px;">Call us or send us a WhatsApp for bookings and collection orders!</p>
+            <div>
                 <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript logic for navigation views, filtering, and WhatsApp form submission -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        function switchView(viewName) {
-            const views = ['homeView', 'menuView', 'orderView', 'bookingView', 'aboutView', 'contactView'];
-            const navLinks = ['navHome', 'navMenu', 'navOrder', 'navBooking', 'navAbout', 'navContact'];
-
-            views.forEach(v => {
-                const el = document.getElementById(v);
-                if(el) el.classList.remove('active');
-            });
-            navLinks.forEach(n => {
-                const el = document.getElementById(n);
-                if(el) el.style.color = 'var(--dark)';
-            });
-
-            if (viewName === 'menu') {
-                document.getElementById('menuView').classList.add('active');
-                document.getElementById('navMenu').style.color = 'var(--primary)';
-            } else if (viewName === 'order') {
-                document.getElementById('orderView').classList.add('active');
-                document.getElementById('navOrder').style.color = 'var(--primary)';
-            } else if (viewName === 'booking') {
-                document.getElementById('bookingView').classList.add('active');
-                document.getElementById('navBooking').style.color = 'var(--primary)';
-            } else if (viewName === 'about') {
-                document.getElementById('aboutView').classList.add('active');
-                document.getElementById('navAbout').style.color = 'var(--primary)';
-            } else if (viewName === 'contact') {
-                document.getElementById('contactView').classList.add('active');
-                document.getElementById('navContact').style.color = 'var(--primary)';
-            } else {
-                document.getElementById('homeView').classList.add('active');
-                document.getElementById('navHome').style.color = 'var(--primary)';
+        const menuData = [
+            {
+                category: "Breakfast (Served till 11:30)",
+                items: [
+                    { name: "Avo On Toast", price: 80, type: "other" },
+                    { name: "Breakfast Oats", price: 68, type: "other" },
+                    { name: "Smoked Salmon Croissant", price: 105, type: "other" },
+                    { name: "French Toast", price: 105, type: "other" },
+                    { name: "Fancy Flapjacks", price: 75, type: "other" },
+                    { name: "Banting Breakfast", price: 80, type: "other" },
+                    { name: "Banting Avo & Halloumi", price: 105, type: "other" },
+                    { name: "Bacon Benedict", price: 115, type: "other" },
+                    { name: "Ham Benedict", price: 105, type: "other" },
+                    { name: "Bruno's Full House", price: 130, type: "other" },
+                    { name: "Mince on Toast", price: 105, type: "other" },
+                    { name: "Potato Waffles", price: 115, type: "other" },
+                    { name: "American Flapjacks", price: 115, type: "other" },
+                    { name: "On The Go Breakfast", price: 70, type: "other" },
+                    { name: "Omelette", price: 80, type: "other" }
+                ]
+            },
+            {
+                category: "Club Tramezzinis & Toasted Sandwiches",
+                items: [
+                    { name: "Club Tramezzini", price: 125, type: "other" },
+                    { name: "Chicken Supreme Tramezzini", price: 115, type: "other" },
+                    { name: "BBQ Sesame Tramezzini", price: 135, type: "other" },
+                    { name: "Toasted Cheddar Cheese", price: 65, type: "other" },
+                    { name: "Toasted Bacon & Egg", price: 80, type: "other" },
+                    { name: "Toasted Bacon, Egg & Cheese", price: 85, type: "other" },
+                    { name: "Toasted Chicken Mayo", price: 85, type: "other" },
+                    { name: "Toasted Ham & Cheese", price: 85, type: "other" },
+                    { name: "Toasted Bacon & Cheese", price: 85, type: "other" },
+                    { name: "Toasted Cheese & Tomato", price: 65, type: "other" }
+                ]
+            },
+            {
+                category: "Starters",
+                items: [
+                    { name: "Chicken Livers", price: 99, type: "other" },
+                    { name: "Brinjal Stack", price: 99, type: "other" },
+                    { name: "Mussels Starter", price: 105, type: "other" },
+                    { name: "Cheesy Garlic Snails", price: 105, type: "other" },
+                    { name: "Cheesy Garlic Prawn Tails", price: 105, type: "other" },
+                    { name: "Crumbed Chicken Strips Starter", price: 105, type: "other" },
+                    { name: "Squid Heads", price: 95, type: "other" },
+                    { name: "Halloumi Starter", price: 99, type: "other" },
+                    { name: "Camembert Starter", price: 99, type: "other" },
+                    { name: "Crumbed Mushroom", price: 99, type: "other" }
+                ]
+            },
+            {
+                category: "Soups & Salads",
+                items: [
+                    { name: "Butternut Soup", price: 99, type: "other" },
+                    { name: "Chicken Soup", price: 99, type: "other" },
+                    { name: "Minestrone Soup", price: 99, type: "other" },
+                    { name: "Greek Salad", price: 105, type: "other" },
+                    { name: "Italian Salad", price: 105, type: "other" },
+                    { name: "Cajun Chicken Salad", price: 110, type: "other" },
+                    { name: "Caprese Salad", price: 110, type: "other" },
+                    { name: "Halloumi Salad", price: 110, type: "other" },
+                    { name: "Blue Cheese Salad", price: 110, type: "other" },
+                    { name: "Crab & Mozzarella Salad", price: 110, type: "other" },
+                    { name: "Beef Salad", price: 135, type: "other" }
+                ]
+            },
+            {
+                category: "Kiddies Menu",
+                items: [
+                    { name: "Spaghetti Bolognaise", price: 79, type: "other" },
+                    { name: "Kiddies Margherita", price: 55, type: "pizza" },
+                    { name: "Toasted Chick Mayo Kiddies", price: 85, type: "other" },
+                    { name: "Toasted Ham & Cheese Kiddies", price: 75, type: "other" },
+                    { name: "Baby Bruno Mac & Cheese", price: 89, type: "other" },
+                    { name: "Kiddies Chicken Strips", price: 99, type: "other" }
+                ]
+            },
+            {
+                category: "Classic Pizza",
+                items: [
+                    { name: "Focaccia Garlic & Herb", price: 80, type: "pizza" },
+                    { name: "Focaccia Cheese", price: 95, type: "pizza" },
+                    { name: "Focaccia Toscana", price: 110, type: "pizza" },
+                    { name: "Focaccia Italiano", price: 110, type: "pizza" },
+                    { name: "Margherita", price: 110, type: "pizza" },
+                    { name: "Romano", price: 115, type: "pizza" },
+                    { name: "Tropicana", price: 125, type: "pizza" },
+                    { name: "Pepperoni", price: 135, type: "pizza" },
+                    { name: "Hawaiian", price: 135, type: "pizza" },
+                    { name: "Vegetarian Pizza", price: 135, type: "pizza" },
+                    { name: "Regina", price: 135, type: "pizza" },
+                    { name: "Napolitana Pizza", price: 135, type: "pizza" },
+                    { name: "Bolognaise & Pineapple", price: 140, type: "pizza" },
+                    { name: "Pappalina", price: 140, type: "pizza" }
+                ]
+            },
+            {
+                category: "Gourmet Pizza",
+                items: [
+                    { name: "Spinach, Bacon & Feta", price: 145, type: "pizza" },
+                    { name: "Mexicana", price: 145, type: "pizza" },
+                    { name: "Spicy Chicken", price: 145, type: "pizza" },
+                    { name: "Bacon, Feta, Mushroom", price: 145, type: "pizza" },
+                    { name: "Jalapeno Special", price: 150, type: "pizza" },
+                    { name: "Chicken Mayonnaise", price: 150, type: "pizza" },
+                    { name: "Halloumi Pizza", price: 150, type: "pizza" },
+                    { name: "Peri-Peri Chicken", price: 150, type: "pizza" },
+                    { name: "Chicken Livers Pizza", price: 150, type: "pizza" },
+                    { name: "Spare Rib Pizza", price: 150, type: "pizza" },
+                    { name: "Avo Special", price: 155, type: "pizza" },
+                    { name: "Four Cheese", price: 155, type: "pizza" },
+                    { name: "Quattro Stagioni", price: 155, type: "pizza" }
+                ]
+            },
+            {
+                category: "Speciality Pizza",
+                items: [
+                    { name: "Prawn & Bacon", price: 160, type: "pizza" },
+                    { name: "Richard's Pizza", price: 160, type: "pizza" },
+                    { name: "Meat Lovers", price: 160, type: "pizza" },
+                    { name: "Camembert & Fig", price: 160, type: "pizza" },
+                    { name: "Camembert, Bacon & Cranberry", price: 160, type: "pizza" },
+                    { name: "Mediterranean", price: 160, type: "pizza" },
+                    { name: "Loaded", price: 165, type: "pizza" },
+                    { name: "Blue Cheese Pizza", price: 165, type: "pizza" },
+                    { name: "Chourico", price: 165, type: "pizza" },
+                    { name: "Seafood Pizza", price: 170, type: "pizza" },
+                    { name: "Fillet Steak", price: 170, type: "pizza" },
+                    { name: "Tabs Loaded Peri-Peri", price: 175, type: "pizza" },
+                    { name: "Don Bruno For The Hungry", price: 295, type: "pizza" }
+                ]
+            },
+            {
+                category: "La Pasta & Al Forno",
+                items: [
+                    { name: "Neapolitan Pasta", price: 120, type: "other" },
+                    { name: "Arrabiata", price: 130, type: "other" },
+                    { name: "Bolognaise Pasta", price: 145, type: "other" },
+                    { name: "Pesto Pasta", price: 140, type: "other" },
+                    { name: "Alla Gorgonzola", price: 140, type: "other" },
+                    { name: "Primavera", price: 140, type: "other" },
+                    { name: "Alfredo", price: 150, type: "other" },
+                    { name: "Gnocchi", price: 150, type: "other" },
+                    { name: "Meatballs Pasta", price: 155, type: "other" },
+                    { name: "Chicken Livers Pasta", price: 155, type: "other" },
+                    { name: "Putanesca", price: 160, type: "other" },
+                    { name: "Crab Pasta", price: 165, type: "other" },
+                    { name: "Prawn & Bacon Pasta", price: 165, type: "other" },
+                    { name: "Ravioli", price: 165, type: "other" },
+                    { name: "Mamma Mia Pasta", price: 175, type: "other" },
+                    { name: "Salmon Pasta", price: 175, type: "other" },
+                    { name: "Seafood Pasta", price: 175, type: "other" },
+                    { name: "Fillet Alle Creme", price: 175, type: "other" },
+                    { name: "Lasagna", price: 155, type: "other" },
+                    { name: "Panzerotti", price: 155, type: "other" },
+                    { name: "Bruno's Mac & Cheese", price: 145, type: "other" },
+                    { name: "Cannelloni", price: 155, type: "other" },
+                    { name: "Seafood Al Forno", price: 160, type: "other" },
+                    { name: "Melanzane", price: 155, type: "other" }
+                ]
+            },
+            {
+                category: "Slow Cooked, Chicken, Grills & Seafood",
+                items: [
+                    { name: "Ossobuco", price: 275, type: "other" },
+                    { name: "Lamb Shank", price: 275, type: "other" },
+                    { name: "Grilled Chicken Breasts", price: 155, type: "other" },
+                    { name: "Honey Mustard Chicken", price: 160, type: "other" },
+                    { name: "Crumbed Chicken Breast", price: 160, type: "other" },
+                    { name: "Chicken Stack", price: 185, type: "other" },
+                    { name: "Chicken Parcels", price: 175, type: "other" },
+                    { name: "Half Chicken", price: 170, type: "other" },
+                    { name: "Thai Chicken Curry", price: 165, type: "other" },
+                    { name: "Chicken Trinchado", price: 155, type: "other" },
+                    { name: "Beef Trinchado", price: 165, type: "other" },
+                    { name: "Lamb Chops", price: 220, type: "other" },
+                    { name: "Crumbed Pork Chops", price: 200, type: "other" },
+                    { name: "300g Rump & Sauce", price: 190, type: "other" },
+                    { name: "300g Fillet & Sauce", price: 230, type: "other" },
+                    { name: "Bruno's Mama Mia Fillet", price: 275, type: "other" },
+                    { name: "Grilled Calamari", price: 160, type: "other" },
+                    { name: "Grilled Kingklip", price: 220, type: "other" },
+                    { name: "Grilled Hake", price: 175, type: "other" },
+                    { name: "Queen Prawns (8)", price: 240, type: "other" },
+                    { name: "Queen Prawns (12)", price: 310, type: "other" }
+                ]
+            },
+            {
+                category: "Dessert",
+                items: [
+                    { name: "Creme Brulee", price: 75, type: "other" },
+                    { name: "Nutella Focaccia", price: 105, type: "pizza" },
+                    { name: "Sticky Toffee Pudding", price: 85, type: "other" },
+                    { name: "Bread & Butter Pudding", price: 85, type: "other" },
+                    { name: "Malva Pudding", price: 85, type: "other" },
+                    { name: "Waffles", price: 75, type: "other" },
+                    { name: "Tiramisu", price: 80, type: "other" }
+                ]
             }
+        ];
+
+        let cart = [];
+
+        // Comprehensive ingredient mapping (matched case-insensitively)
+        const menuIngredientsMap = {
+            "margherita": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Italian Herbs"],
+            "romano": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Anchovies", "Capers", "Italian Herbs"],
+            "tropicana": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Banana", "Bacon", "Italian Herbs"],
+            "pepperoni": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Pepperoni", "Italian Herbs"],
+            "hawaiian": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Pineapple", "Ham", "Italian Herbs"],
+            "vegetarian pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Mushrooms", "Onions", "Green Peppers", "Asparagus", "Italian Herbs"],
+            "regina": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Ham", "Mushrooms", "Italian Herbs"],
+            "napolitana pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Anchovies", "Capers", "Italian Herbs"],
+            "bolognaise & pineapple": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Mince", "Pineapple", "Italian Herbs"],
+            "pappalina": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Mushrooms", "Avo", "Italian Herbs"],
+            "spinach, bacon & feta": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Spinach", "Feta", "Bacon", "Italian Herbs"],
+            "mexicana": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Mince", "Green Peppers", "Onions", "Jalapeno", "Italian Herbs"],
+            "spicy chicken": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chicken", "Green Peppers", "Onions", "Chilli", "Italian Herbs"],
+            "bacon, feta, mushroom": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Feta", "Mushrooms", "Italian Herbs"],
+            "jalapeno special": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Feta", "Jalapeno", "Italian Herbs"],
+            "chicken mayonnaise": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chicken Mayo", "Italian Herbs"],
+            "halloumi pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Halloumi", "Bacon", "Sweet Chilli", "Italian Herbs"],
+            "peri-peri chicken": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chicken", "Peri-Peri Sauce", "Green Peppers", "Italian Herbs"],
+            "chicken livers pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chicken Livers", "Chilli", "Italian Herbs"],
+            "spare rib pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Spare Rib", "Mushrooms", "Onions", "Italian Herbs"],
+            "avo special": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Feta", "Avo", "Italian Herbs"],
+            "four cheese": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Feta", "Blue Cheese", "Parmesan Shavings", "Italian Herbs"],
+            "quattro stagioni": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Ham", "Mushrooms", "Artichokes", "Olives", "Italian Herbs"],
+            "prawn & bacon": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Prawn Meat", "Bacon", "Sweet Chilli", "Italian Herbs"],
+            "meat lovers": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Ham", "Salami", "Pepperoni", "Mince", "Italian Herbs"],
+            "camembert & fig": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Camembert Cheese", "Fig", "Italian Herbs"],
+            "camembert, bacon & cranberry": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Camembert Cheese", "Bacon", "Cranberry", "Italian Herbs"],
+            "mediterranean": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Spinach", "Olives", "Feta", "Sundried Tomatoes", "Italian Herbs"],
+            "loaded": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Ham", "Feta", "Avo", "Mushrooms", "Italian Herbs"],
+            "blue cheese pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Blue Cheese", "Bacon", "Fig", "Italian Herbs"],
+            "chourico": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chourico", "Onions", "Green Peppers", "Jalapeno", "Italian Herbs"],
+            "seafood pizza": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Seafood", "Garlic", "Italian Herbs"],
+            "fillet steak": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Fillet Strips", "Mushrooms", "Onions", "Italian Herbs"],
+            "tabs loaded peri-peri": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Chicken", "Peri-Peri Sauce", "Feta", "Peppadews", "Italian Herbs"],
+            "don bruck for the hungry": ["Mozzarella Cheese", "Tomato Pizza Sauce", "Bacon", "Salami", "Pepperoni", "Spare Rib", "Chicken", "Ham", "Mince", "Mushrooms", "Olives", "Feta", "Onions", "Peppadew", "Green Peppers", "Jalapeno", "Chourico", "Italian Herbs"]
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            buildMenuView();
+            buildIngredientCheckboxes();
+            buildOrderDropdown();
+        });
+
+        let activeMenuCategory = null;
+
+        function buildMenuView() {
+            const categoryList = document.getElementById('menuCategoryList');
+            const tabs = document.getElementById('menuTabs');
+            categoryList.innerHTML = '';
+            tabs.innerHTML = '';
+
+            menuData.forEach((section, index) => {
+                const row = document.createElement('button');
+                row.type = 'button';
+                row.className = 'menu-category-row' + (index === 0 ? ' special-category' : '');
+                row.innerHTML = `<span>${index === 0 ? '⭐' : ''}${section.category}</span><span class="menu-chevron">›</span>`;
+                row.onclick = () => openMenuCategory(index);
+                categoryList.appendChild(row);
+
+                const tab = document.createElement('button');
+                tab.type = 'button';
+                tab.className = 'menu-tab';
+                tab.dataset.index = index;
+                tab.textContent = section.category;
+                tab.onclick = () => openMenuCategory(index);
+                tabs.appendChild(tab);
+            });
+        }
+
+        function openMenuCategory(index) {
+            activeMenuCategory = index;
+            document.getElementById('menuCategoryList').style.display = 'none';
+            document.getElementById('menuCategoryView').style.display = 'block';
+            renderMenuCategory(index);
             window.scrollTo(0, 0);
         }
 
-        // Menu filtering functionality
-        function filterMenu(category) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        function renderMenuCategory(index, searchTerm = '') {
+            const section = menuData[index];
+            if (!section) return;
+            document.querySelectorAll('.menu-tab').forEach(tab => {
+                tab.classList.toggle('active', Number(tab.dataset.index) === index);
+            });
+            const list = document.getElementById('menuItemsList');
+            const query = searchTerm.trim().toLowerCase();
+            const items = section.items.filter(item => !query || item.name.toLowerCase().includes(query));
+            list.innerHTML = items.length ? items.map(item => `
+                <article class="reference-menu-item">
+                    <h2>${item.name}</h2>
+                    <div class="reference-price">From <span>R${item.price},00</span></div>
+                    <p>Freshly prepared authentic recipe.</p>
+                </article>
+            `).join('') : `<div class="menu-empty">No menu items found.</div>`;
+            const activeTab = document.querySelector('.menu-tab.active');
+            if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
 
-            const categories = document.querySelectorAll('.menu-category');
-            categories.forEach(cat => {
-                if (category === 'all' || cat.getAttribute('data-category') === category) {
-                    cat.style.display = 'block';
-                } else {
-                    cat.style.display = 'none';
-                }
+        function closeMenuView() { switchView('home'); }
+
+        function focusMenuSearch() {
+            const wrap = document.getElementById('menuSearchWrap');
+            wrap.classList.toggle('open');
+            if (wrap.classList.contains('open')) document.getElementById('menuSearch').focus();
+        }
+
+        function filterMenuItems(value) {
+            if (activeMenuCategory !== null) renderMenuCategory(activeMenuCategory, value);
+        }
+
+        function buildIngredientCheckboxes() {
+            const container = document.getElementById('ingredientsContainer');
+            if (!container) return;
+
+            // Build the checkbox list from every ingredient used by the menu
+            // ingredient map, so mapped ingredients are always available to tick.
+            const ingredients = [...new Set(Object.values(menuIngredientsMap).flat())];
+            container.innerHTML = ingredients.map(ingredient => `
+                <label><input type="checkbox" value="${ingredient.replace(/"/g, '&quot;')}"> ${ingredient}</label>
+            `).join('');
+        }
+
+        function getMappedIngredients(itemName, itemType) {
+            const key = itemName.toLowerCase().trim();
+            let ingredients = menuIngredientsMap[key];
+
+            // Pizza items without a specific mapping still get the standard base.
+            if (!ingredients && itemType === 'pizza') {
+                ingredients = ["Mozzarella Cheese", "Tomato Pizza Sauce", "Italian Herbs"];
+            }
+
+            return ingredients || [];
+        }
+
+        function buildOrderDropdown() {
+            const categorySelect = document.getElementById('menuCategorySelect');
+            const itemSelect = document.getElementById('menuItemSelect');
+
+            categorySelect.innerHTML = '<option value="" disabled selected>-- Choose Starters, Pizza, Pasta, etc. --</option>';
+            itemSelect.innerHTML = '<option value="" disabled selected>-- Select an item --</option>';
+            itemSelect.disabled = true;
+
+            menuData.forEach((section, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = section.category;
+                categorySelect.appendChild(option);
             });
         }
 
-        // Order Form submission converting input to WhatsApp query string
-        function submitOrderForm(event) {
-            event.preventDefault();
-            const name = document.getElementById('orderName').value;
-            const phone = document.getElementById('orderPhone').value;
-            const type = document.getElementById('orderType').value;
-            const address = document.getElementById('orderAddress').value;
-            const details = document.getElementById('orderDetails').value;
+        function populateOrderItems(categoryIndex) {
+            const itemSelect = document.getElementById('menuItemSelect');
+            const section = menuData[Number(categoryIndex)];
 
-            const text = `Hi, I would like to place an order from Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\nOrder Type: ${type}\nAddress: ${address || 'N/A (Collection)'}\n\nOrder Details:\n${details}`;
-            const phoneNumber = "27697997487";
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+            itemSelect.innerHTML = '<option value="" disabled selected>-- Select an item --</option>';
+            itemSelect.disabled = !section;
+
+            document.getElementById('optionsPanel').style.display = 'none';
+            document.getElementById('pizzaExtrasPanel').style.display = 'none';
+
+            if (!section) return;
+
+            section.items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.name;
+                option.setAttribute('data-type', item.type);
+                option.setAttribute('data-price', item.price);
+                option.textContent = `${item.name} - R${item.price}`;
+                itemSelect.appendChild(option);
+            });
         }
 
-        // Table Booking Form submission converting input to WhatsApp query string
+        function switchView(viewName) {
+            const views = ['homeView', 'menuView', 'orderView', 'bookingView', 'aboutView', 'contactView'];
+            views.forEach(v => { const el = document.getElementById(v); if(el) el.classList.remove('active'); });
+            const isMenu = viewName === 'menu';
+            document.body.classList.toggle('menu-mode', isMenu);
+            if (isMenu) {
+                document.getElementById('menuView').classList.add('active');
+                activeMenuCategory = null;
+                document.getElementById('menuCategoryList').style.display = 'block';
+                document.getElementById('menuCategoryView').style.display = 'none';
+                document.getElementById('menuSearchWrap').classList.remove('open');
+                document.getElementById('menuSearch').value = '';
+            } else if (viewName === 'order') {
+                document.getElementById('orderView').classList.add('active');
+                const categorySelect = document.getElementById('menuCategorySelect');
+                const itemSelect = document.getElementById('menuItemSelect');
+                if (categorySelect && itemSelect) {
+                    categorySelect.selectedIndex = 0;
+                    itemSelect.innerHTML = '<option value="" disabled selected>-- Select an item --</option>';
+                    itemSelect.disabled = true;
+                }
+            }
+            else if (viewName === 'booking') document.getElementById('bookingView').classList.add('active');
+            else if (viewName === 'about') document.getElementById('aboutView').classList.add('active');
+            else if (viewName === 'contact') document.getElementById('contactView').classList.add('active');
+            else document.getElementById('homeView').classList.add('active');
+            window.scrollTo(0, 0);
+            document.getElementById('mainNav').classList.remove('mobile-open');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mainNav').classList.toggle('mobile-open');
+        }
+
+        function checkMenuSelection() {
+            const select = document.getElementById('menuItemSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            if (!selectedOption || !select.value) return;
+            const itemType = selectedOption.getAttribute('data-type');
+            const selectedItemName = select.value.toLowerCase().trim();
+
+            const optionsPanel = document.getElementById('optionsPanel');
+            const pizzaExtrasPanel = document.getElementById('pizzaExtrasPanel');
+
+            optionsPanel.style.display = 'block';
+
+            const checkboxes = document.querySelectorAll('#ingredientsContainer input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+
+            const extraCheckboxes = document.querySelectorAll('#extrasContainer input[type="checkbox"]');
+            extraCheckboxes.forEach(cb => cb.checked = false);
+
+            const ingredients = getMappedIngredients(selectedItemName, itemType);
+
+            checkboxes.forEach(cb => {
+                cb.checked = ingredients.some(ingredient =>
+                    ingredient.toLowerCase().trim() === cb.value.toLowerCase().trim()
+                );
+            });
+
+            if (itemType === 'pizza') {
+                pizzaExtrasPanel.style.display = 'block';
+            } else {
+                pizzaExtrasPanel.style.display = 'none';
+            }
+        }
+
+        function addSelectedItem() {
+            const select = document.getElementById('menuItemSelect');
+            const quantityInput = document.getElementById('itemQuantity');
+            
+            if (!select.value) {
+                alert('Please select a menu item first.');
+                return;
+            }
+
+            const itemName = select.value;
+            const selectedOption = select.options[select.selectedIndex];
+            let basePrice = parseFloat(selectedOption.getAttribute('data-price'));
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            const checkedBoxes = document.querySelectorAll('#ingredientsContainer input:checked');
+            let modText = [];
+            if (checkedBoxes.length > 0) {
+                modText.push("Base: " + Array.from(checkedBoxes).map(cb => cb.value).join(', '));
+            }
+
+            const checkedExtras = document.querySelectorAll('#extrasContainer input:checked');
+            if (checkedExtras.length > 0) {
+                const extrasList = Array.from(checkedExtras).map(cb => {
+                    basePrice += parseFloat(cb.getAttribute('data-extra-price'));
+                    return cb.value;
+                });
+                modText.push("Extras: " + extrasList.join(', '));
+            }
+
+            let fullItemName = itemName;
+            if (modText.length > 0) {
+                fullItemName += ` [${modText.join(' | ')}]`;
+            }
+
+            const existingItem = cart.find(item => item.name === fullItemName);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name: fullItemName, price: basePrice, quantity: quantity });
+            }
+
+            select.selectedIndex = 0;
+            quantityInput.value = 1;
+            document.getElementById('optionsPanel').style.display = 'none';
+            document.getElementById('pizzaExtrasPanel').style.display = 'none';
+
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('cartList');
+            const totalPriceEl = document.getElementById('cartTotalPrice');
+            const orderDetailsTextarea = document.getElementById('orderDetails');
+
+            cartList.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartList.innerHTML = '<li style="color: var(--grey); font-size: 14px; font-style: italic;">No items added yet.</li>';
+                totalPriceEl.textContent = 'R0';
+                orderDetailsTextarea.value = '';
+                return;
+            }
+
+            let totalPrice = 0;
+            let summaryString = '';
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+
+                summaryString += `${item.quantity}x ${item.name} (R${itemTotal})\n`;
+
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+                li.style.padding = '6px 0';
+                li.style.borderBottom = '1px solid #f5f2eb';
+                li.innerHTML = `
+                    <span style="font-size: 14px;">${item.quantity}x ${item.name}</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight: bold; font-size: 14px;">R${itemTotal}</span>
+                        <button type="button" onclick="removeFromCart(${index})" style="background: #c92a2a; color: white; border: none; border-radius: 4px; padding: 3px 8px; cursor: pointer; font-size: 11px;">Remove</button>
+                    </div>
+                `;
+                cartList.appendChild(li);
+            });
+
+            totalPriceEl.textContent = `R${totalPrice}`;
+            orderDetailsTextarea.value = summaryString.trim();
+        }
+
+        function submitOrderForm(event) {
+            event.preventDefault();
+            if (cart.length === 0) {
+                alert('Please add at least one item to your cart before ordering.');
+                return;
+            }
+
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const details = document.getElementById('orderDetails').value;
+            const total = document.getElementById('cartTotalPrice').textContent;
+
+            const text = `Hi, I would like to place a collection order from Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\n\nOrder Details:\n${details}\n\nEstimated Total: ${total}`;
+            window.open(`https://wa.me/27697997487?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
         function submitBookingForm(event) {
             event.preventDefault();
             const name = document.getElementById('bookName').value;
             const phone = document.getElementById('bookPhone').value;
+            const guests = document.getElementById('bookGuests').value;
             const date = document.getElementById('bookDate').value;
             const time = document.getElementById('bookTime').value;
-            const guests = document.getElementById('bookGuests').value;
             const notes = document.getElementById('bookNotes').value;
 
-            const text = `Hi, I would like to book a table at Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nNotes: ${notes}`;
-            const phoneNumber = "27697997487";
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+            let text = `Hi, I would like to book a table at Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\nGuests: ${guests}\nDate: ${date}\nTime: ${time}`;
+            if (notes.trim()) {
+                text += `\nSpecial Requests: ${notes}`;
+            }
+
+            window.open(`https://wa.me/27697997487?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
 </body>

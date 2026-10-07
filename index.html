@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruno's Pizzeria | Authentic Italian Cuisine</title>
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <div class="logo">Bruno's Pizzeria</div>
+        <nav>
+            <ul>
+                <li><a href="#" id="navHome" onclick="switchView('home')">Home</a></li>
+                <li><a href="#" id="navMenu" onclick="switchView('menu')">Our Menu</a></li>
+                <li><a href="#" id="navOrder" onclick="switchView('order')">Order Online</a></li>
+                <li><a href="#" id="navBooking" onclick="switchView('booking')">Book a Table</a></li>
+                <li><a href="#" id="navAbout" onclick="switchView('about')">About Us</a></li>
+                <li><a href="#" id="navContact" onclick="switchView('contact')">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HOME VIEW SECTION -->
+    <div id="homeView" class="page-view active">
+        <section class="hero">
+            <div class="content">
+                <h2>Authentic Italian Pizza & Cuisine Est. 1986</h2>
+                <h1>Welcome to <span>Bruno's Pizzeria</span></h1>
+                <p>Experience wood-fired pizzas, handcrafted pastas, gourmet grills, and exceptional service.<br />Join us for a true taste of Italy in Mulbarton!</p>
+                <div class="buttons">
+                    <button onclick="switchView('menu')" class="btn btn-primary">Explore Menu</button>
+                    <button onclick="switchView('order')" class="btn btn-secondary">Order Online</button>
+                </div>
+            </div>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" alt="Delicious Pizza">
+            </div>
+        </section>
+    </div>
+
+    <!-- MENU VIEW SECTION WITH FILTER TABS -->
+    <div id="menuView" class="page-view">
+        <div class="menu-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="font-size: 40px; margin-bottom: 10px;">Our Interactive <span>Menu</span></h1>
+                <p style="color: var(--grey);">Mulbarton, Johannesburg South | Est. 1986</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="menu-filters">
+                <button class="filter-btn active" onclick="filterMenu('all')">All Items</button>
+                <button class="filter-btn" onclick="filterMenu('breakfast')">Breakfast</button>
+                <button class="filter-btn" onclick="filterMenu('starters')">Starters & Salads</button>
+                <button class="filter-btn" onclick="filterMenu('classicpizza')">Classic & Gourmet Pizza</button>
+                <button class="filter-btn" onclick="filterMenu('pasta')">Pasta & Al Forno</button>
+                <button class="filter-btn" onclick="filterMenu('grills')">Grills, Chicken & Seafood</button>
+                <button class="filter-btn" onclick="filterMenu('dessert')">Dessert</button>
+                <button class="filter-btn" onclick="filterMenu('drinks')">Drinks</button>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Breakfast -->
+                <div class="menu-category" data-category="breakfast">
+                    <h3>Breakfast (Served Till 11:30)</h3>
+                    <div class="menu-item"><span class="item-name">Avo On Toast</span><span class="item-price">R80</span></div>
+                    <div class="menu-item"><span class="item-name">Breakfast Oats</span><span class="item-price">R68</span></div>
+                    <div class="menu-item"><span class="item-name">Smoked Salmon Croissant</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">French Toast</span><span class="item-price">R75</span></div>
+                    <div class="menu-item"><span class="item-name">Bruno's Full House</span><span class="item-price">R130</span></div>
+                    <div class="menu-item"><span class="item-name">Ham Benedict</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">Mince on Toast</span><span class="item-price">R105</span></div>
+                </div>
+
+                <!-- Starters & Salads -->
+                <div class="menu-category" data-category="starters">
+                    <h3>Starters & Salads</h3>
+                    <div class="menu-item"><span class="item-name">Mussels</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">Cheesy Garlic Snails</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">Cheesy Garlic Prawn Tails</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">Greek Salad</span><span class="item-price">R105</span></div>
+                    <div class="menu-item"><span class="item-name">Cajun Chicken Salad</span><span class="item-price">R110</span></div>
+                    <div class="menu-item"><span class="item-name">Caprese Salad</span><span class="item-price">R110</span></div>
+                    <div class="menu-item"><span class="item-name">Beef Salad</span><span class="item-price">R135</span></div>
+                </div>
+
+                <!-- Classic & Gourmet Pizza -->
+                <div class="menu-category" data-category="classicpizza">
+                    <h3>Classic & Gourmet Pizza</h3>
+                    <div class="menu-item"><span class="item-name">Focaccia Cheese</span><span class="item-price">R95</span></div>
+                    <div class="menu-item"><span class="item-name">Margherita</span><span class="item-price">R110</span></div>
+                    <div class="menu-item"><span class="item-name">Pepperoni</span><span class="item-price">R135</span></div>
+                    <div class="menu-item"><span class="item-name">Hawaiian</span><span class="item-price">R135</span></div>
+                    <div class="menu-item"><span class="item-name">Spinach, Bacon & Feta</span><span class="item-price">R145</span></div>
+                    <div class="menu-item"><span class="item-name">Mexicana</span><span class="item-price">R145</span></div>
+                    <div class="menu-item"><span class="item-name">Don Bruno For The Hungry</span><span class="item-price">R295</span></div>
+                </div>
+
+                <!-- Pasta & Al Forno -->
+                <div class="menu-category" data-category="pasta">
+                    <h3>Pasta & Al Forno</h3>
+                    <div class="menu-item"><span class="item-name">Neapolitan Pasta</span><span class="item-price">R120</span></div>
+                    <div class="menu-item"><span class="item-name">Bolognaise Pasta</span><span class="item-price">R145</span></div>
+                    <div class="menu-item"><span class="item-name">Alfredo Pasta</span><span class="item-price">R150</span></div>
+                    <div class="menu-item"><span class="item-name">Salmon Pasta</span><span class="item-price">R175</span></div>
+                    <div class="menu-item"><span class="item-name">Lasagna</span><span class="item-price">R155</span></div>
+                    <div class="menu-item"><span class="item-name">Bruno's Mac & Cheese</span><span class="item-price">R145</span></div>
+                </div>
+
+                <!-- Grills, Chicken & Seafood -->
+                <div class="menu-category" data-category="grills">
+                    <h3>Grills, Chicken & Seafood</h3>
+                    <div class="menu-item"><span class="item-name">Lamb Chops</span><span class="item-price">R220</span></div>
+                    <div class="menu-item"><span class="item-name">Fillet/Rump & Sauce</span><span class="item-price">R230 / R190</span></div>
+                    <div class="menu-item"><span class="item-name">Grilled Chicken Breasts</span><span class="item-price">R155</span></div>
+                    <div class="menu-item"><span class="item-name">Half Chicken</span><span class="item-price">R170</span></div>
+                    <div class="menu-item"><span class="item-name">Grilled Calamari</span><span class="item-price">R160</span></div>
+                    <div class="menu-item"><span class="item-name">Grilled Kingklip</span><span class="item-price">R220</span></div>
+                    <div class="menu-item"><span class="item-name">Queen Prawns (Eight)</span><span class="item-price">R240</span></div>
+                </div>
+
+                <!-- Dessert -->
+                <div class="menu-category" data-category="dessert">
+                    <h3>Dessert</h3>
+                    <div class="menu-item"><span class="item-name">Creme Brulee</span><span class="item-price">R75</span></div>
+                    <div class="menu-item"><span class="item-name">Nutella Focaccia</span><span class="item-price">R85</span></div>
+                    <div class="menu-item"><span class="item-name">Sticky Toffee Pudding</span><span class="item-price">R75</span></div>
+                    <div class="menu-item"><span class="item-name">Malva Pudding</span><span class="item-price">R75</span></div>
+                    <div class="menu-item"><span class="item-name">Tiramisu</span><span class="item-price">R85</span></div>
+                </div>
+
+                <!-- Drinks -->
+                <div class="menu-category" data-category="drinks">
+                    <h3>Drinks & Hot Beverages</h3>
+                    <div class="menu-item"><span class="item-name">Appletiser / Grapetiser</span><span class="item-price">R38</span></div>
+                    <div class="menu-item"><span class="item-name">Soft Drinks (Coke, Fanta, Sprite)</span><span class="item-price">R32</span></div>
+                    <div class="menu-item"><span class="item-name">Iced Tea (Lemon / Peach)</span><span class="item-price">R35</span></div>
+                    <div class="menu-item"><span class="item-name">Mineral Water (Still / Sparkling)</span><span class="item-price">R28</span></div>
+                    <div class="menu-item"><span class="item-name">Cappuccino</span><span class="item-price">R42</span></div>
+                    <div class="menu-item"><span class="item-name">Café Latte</span><span class="item-price">R45</span></div>
+                    <div class="menu-item"><span class="item-name">Irish Coffee</span><span class="item-price">R70</span></div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER ONLINE VIEW SECTION -->
+    <div id="orderView" class="page-view">
+        <div class="booking-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="font-size: 36px; margin-bottom: 10px;">Order <span>Online</span></h1>
+                <p style="color: var(--grey);">Send your takeaway or delivery order straight to our kitchen via WhatsApp!</p>
+            </div>
+
+            <form id="onlineOrderForm" onsubmit="submitOrderForm(event)">
+                <div class="form-group">
+                    <label for="orderName">Your Name</label>
+                    <input type="text" id="orderName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderPhone">Phone Number</label>
+                    <input type="tel" id="orderPhone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderType">Order Type</label>
+                    <select id="orderType" class="form-control" required>
+                        <option value="Collection">Collection</option>
+                        <option value="Delivery">Delivery (Mulbarton & Surrounds)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orderAddress">Delivery Address (If applicable)</label>
+                    <input type="text" id="orderAddress" class="form-control" placeholder="Enter your street address">
+                </div>
+                <div class="form-group">
+                    <label for="orderDetails">Your Order Items & Quantities</label>
+                    <textarea id="orderDetails" class="form-control" rows="4" placeholder="E.g., 1x Margherita Pizza, 1x Alfredo Pasta, 2x Appletiser..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">Send Order via WhatsApp</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE BOOKING VIEW SECTION -->
+    <div id="bookingView" class="page-view">
+        <div class="booking-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="font-size: 36px; margin-bottom: 10px;">Book a <span>Table</span></h1>
+                <p style="color: var(--grey);">Fill out the details below to instantly send your reservation request straight to our WhatsApp line!</p>
+            </div>
+
+            <form id="tableBookingForm" onsubmit="submitBookingForm(event)">
+                <div class="form-group">
+                    <label for="bookName">Your Name</label>
+                    <input type="text" id="bookName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookPhone">Phone Number</label>
+                    <input type="tel" id="bookPhone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookDate">Reservation Date</label>
+                    <input type="date" id="bookDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookTime">Time Slot</label>
+                    <input type="time" id="bookTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookGuests">Number of Guests</label>
+                    <input type="number" id="bookGuests" class="form-control" min="1" max="20" value="2" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookNotes">Special Requests / Dietary Notes</label>
+                    <textarea id="bookNotes" class="form-control" rows="3" placeholder="E.g., High chair needed, seating preference..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">Confirm Reservation via WhatsApp</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT US VIEW SECTION -->
+    <div id="aboutView" class="page-view">
+        <div class="menu-container" style="max-width: 800px;">
+            <div class="about-card">
+                <h2>Bruno's Pizzeria</h2>
+                <p>Bringing authentic traditional Italian wood-fired pizzas, handcrafted pastas, and exquisite grills to Mulbarton since 1986.</p>
+
+                <div class="about-actions">
+                    <a href="https://wa.me/27697997487?text=Hi,%20I%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="icon-btn whatsapp-icon-btn" title="WhatsApp Us">💬</a>
+                    <a href="tel:0697997487" class="icon-btn call-icon-btn" title="Call Us">📞</a>
+                </div>
+
+                <div style="font-size: 22px; font-weight: bold; border-bottom: 1px solid #332d27; padding-bottom: 8px;">Location & Contact</div>
+                <p style="margin-top: 15px; color: #dcd6cd;">Cnr Hythe Ave & The Broads St</p>
+                <p style="color: #dcd6cd;">Mulbarton, Johannesburg South</p>
+                <p style="margin-top: 15px; color: #d4af37; font-weight: bold;">Call / WhatsApp: 069 799 7487</p>
+
+                <div style="font-size: 22px; font-weight: bold; border-bottom: 1px solid #332d27; padding-bottom: 8px; margin-top: 35px;">Trading Hours</div>
+                <p style="margin-top: 15px; color: #dcd6cd;">Tuesday – Saturday: 10:30 AM – 9:00 PM</p>
+                <p style="color: #dcd6cd;">Sunday: 07:30 AM – 8:00 PM</p>
+                <p style="font-style: italic; color: #a3988d; margin-top: 8px;">Join us for our weekend specials!</p>
+
+                <div class="social-links">
+                    <a href="#" class="social-icon" title="Facebook">F</a>
+                    <a href="#" class="social-icon" title="Instagram">IG</a>
+                    <a href="https://wa.me/27697997487" target="_blank" class="social-icon" title="WhatsApp">WA</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT US VIEW SECTION -->
+    <div id="contactView" class="page-view">
+        <div class="menu-container" style="max-width: 800px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="font-size: 40px; margin-bottom: 10px;">Contact <span>Us</span></h1>
+                <p style="color: var(--grey);">Get in touch with us for orders, reservations, or inquiries.</p>
+            </div>
+
+            <div class="about-card" style="text-align: center;">
+                <h2>Bruno's Pizzeria</h2>
+                <p>Cnr Hythe Ave & The Broads St<br>Mulbarton, Johannesburg South</p>
+                
+                <h3 style="color: #d4af37; font-size: 28px; margin-bottom: 10px;">069 799 7487</h3>
+                <p style="color: #dcd6cd; font-size: 14px; margin-bottom: 25px;">Available for Call & WhatsApp</p>
+
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    <a href="tel:0697997487" class="btn btn-primary" style="background-color: #c92a2a; color: #fff;">📞 Call Us</a>
+                    <a href="https://wa.me/27697997487?text=Hi,%20I%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="btn" style="background-color: #25d366; color: #fff;">💬 WhatsApp Us</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="switchView('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic for navigation views, filtering, and WhatsApp form submission -->
+    <script>
+        function switchView(viewName) {
+            const views = ['homeView', 'menuView', 'orderView', 'bookingView', 'aboutView', 'contactView'];
+            const navLinks = ['navHome', 'navMenu', 'navOrder', 'navBooking', 'navAbout', 'navContact'];
+
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if(el) el.classList.remove('active');
+            });
+            navLinks.forEach(n => {
+                const el = document.getElementById(n);
+                if(el) el.style.color = 'var(--dark)';
+            });
+
+            if (viewName === 'menu') {
+                document.getElementById('menuView').classList.add('active');
+                document.getElementById('navMenu').style.color = 'var(--primary)';
+            } else if (viewName === 'order') {
+                document.getElementById('orderView').classList.add('active');
+                document.getElementById('navOrder').style.color = 'var(--primary)';
+            } else if (viewName === 'booking') {
+                document.getElementById('bookingView').classList.add('active');
+                document.getElementById('navBooking').style.color = 'var(--primary)';
+            } else if (viewName === 'about') {
+                document.getElementById('aboutView').classList.add('active');
+                document.getElementById('navAbout').style.color = 'var(--primary)';
+            } else if (viewName === 'contact') {
+                document.getElementById('contactView').classList.add('active');
+                document.getElementById('navContact').style.color = 'var(--primary)';
+            } else {
+                document.getElementById('homeView').classList.add('active');
+                document.getElementById('navHome').style.color = 'var(--primary)';
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // Menu filtering functionality
+        function filterMenu(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const categories = document.querySelectorAll('.menu-category');
+            categories.forEach(cat => {
+                if (category === 'all' || cat.getAttribute('data-category') === category) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+        }
+
+        // Order Form submission converting input to WhatsApp query string
+        function submitOrderForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const type = document.getElementById('orderType').value;
+            const address = document.getElementById('orderAddress').value;
+            const details = document.getElementById('orderDetails').value;
+
+            const text = `Hi, I would like to place an order from Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\nOrder Type: ${type}\nAddress: ${address || 'N/A (Collection)'}\n\nOrder Details:\n${details}`;
+            const phoneNumber = "27697997487";
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Table Booking Form submission converting input to WhatsApp query string
+        function submitBookingForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const date = document.getElementById('bookDate').value;
+            const time = document.getElementById('bookTime').value;
+            const guests = document.getElementById('bookGuests').value;
+            const notes = document.getElementById('bookNotes').value;
+
+            const text = `Hi, I would like to book a table at Bruno's Pizzeria Mulbarton.\n\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nNotes: ${notes}`;
+            const phoneNumber = "27697997487";
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
